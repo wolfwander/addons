@@ -1,5 +1,146 @@
 # Changelog
 
+## 0.1.94
+
+### Features
+
+- Add-on: Add a `soft_reset` configuration option to choose how to handle soft-reset functionality for 500 series controllers.
+- Add-on: Extend timeout from 3 seconds to 30 to give Z-Wave JS more time to commit things to disk.
+
+### Bug fixes
+
+- Z-Wave JS: The workaround from v12.0.0 for the 7.19.x SDK bug was not working correctly when the command that caused the controller to get stuck could be retried. This has now been fixed.
+- Z-Wave JS: Ignore when a node reports Security S0/S2 CC to have version 0 (unsupported) although it is using that CC
+
+### Config file changes
+- Add Shelly to manufacturers
+- Add Shelly Wave 1, Wave 2PM, update Wave 1PM association labels
+- Add Sunricher SR-ZV2833PAC
+
+### Detailed changelog
+
+- [Z-Wave JS 12.0.1](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.0.1)
+- [Z-Wave JS 12.0.2](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.0.2)
+
+## 0.1.93
+
+### Bug fixes
+
+- Z-Wave JS Server: For users that have opted in to data collection in their Home Assistant Z-Wave configuration, a missing return caused the server to try to soft reset the controller during Home Assistant startup for Home Assiststant versions 2023.9.x or less. This has now been resolved.
+
+### Detailed changelog
+
+- [Z-Wave JS Server 1.32.1](https://github.com/zwave-js/zwave-js-server/releases/tag/1.32.1)
+
+## 0.1.92
+
+### Bug fixes
+
+- Add-on: Revert change to stop rebuilding @serialport/bindings-cpp from source as the problem is fixed on some CPU platforms but not all
+
+## 0.1.91
+
+### Breaking changes
+
+- Z-Wave JS: Firmware updates may no longer work properly in Home Assistant versions 2023.9.x and earlier due to a breaking change upstream that couldn't be made backward compatible, but will work once again starting in 2023.10.0. This breaking change ultimately improves firmware updates, as checking for updates no longer requires communication with the device, therefore reducing the risk of corrupting manufacturer information. This also means that updates for battery-powered devices can be detected without waking up the devices.
+
+### Features
+
+- Z-Wave JS: Unresponsive controllers are now detected and automatically restarted if possible.
+- Z-Wave JS: Battery-powered devices are sent back to sleep after 250 ms with no command (down from 1000 ms). This should result in significant battery savings for devices that frequently wake up.
+- Add-on: We no longer rebuild the @serialport/bindings-cpp package from source.
+
+### Bug fixes
+
+- Z-Wave JS: A bug in the 7.19.x SDK has surfaced where the controller gets stuck in the middle of a transmission. Previously, this would go unnoticed because the failed commands would cause the nodes to be marked dead until the controller finally recovered. Since v11.12.0, however, Z-Wave JS would consider the controller jammed and retry the last command indefinitely. This situation is now detected, and Z-Wave JS attempts to recover by soft resetting the controller when this happens.
+- Z-Wave JS: Fixed an issue where supporting controllers would no longer be automatically restarted after failing to do so once.
+- Z-Wave JS: Devices that send notifications from endpoints, like Aeotec Wallmote, are now properly supported.
+
+### Config file changes
+
+- Add warnings about broken controller firmware versions
+- Add Heatit Z-Water 2
+- Add Shelly Wave 1PM
+- Add Heatit Z-TRM6
+- Increase poll delay for ZW500D
+- Add fingerprint for Simon IO Master Roller Blind
+- Add HOPPE eHandle ConnectSense
+- Add parameters to Zooz ZEN17 from firmware 1.30
+- Update Zooz ZEN32 config to the latest firmware, include 800 series
+
+### Detailed changelogs
+
+- [Z-Wave JS 11.14.3](https://github.com/zwave-js/node-zwave-js/releases/tag/v11.14.3)
+- [Z-Wave JS 12.0.0](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.0.0)
+- [Z-Wave JS Server 1.32.0](https://github.com/zwave-js/zwave-js-server/releases/tag/1.32.0)
+
+## 0.1.90
+
+### Bug fixes
+
+- Z-Wave JS: Fixed an issue causing commands that have previously been moved to the wakeup queue for sleeping nodes to no longer be handled correctly on wakeup and block the send queue for an extended amount of time
+
+### Detailed changelogs
+
+- [Z-Wave JS 11.14.1](https://github.com/zwave-js/node-zwave-js/releases/tag/v11.14.1)
+- [Z-Wave JS 11.14.2](https://github.com/zwave-js/node-zwave-js/releases/tag/v11.14.2)
+
+## 0.1.89
+
+### Features
+
+- Z-Wave JS: Optimized the order of node communication during startup to ensure responsive nodes are ready first
+
+### Bug fixes
+
+- Z-Wave JS: The start/stop time and date values in `Schedule Entry Lock` CC commands are now validated
+- Z-Wave JS: Fixed an issue where `hasDeviceConfigChanged` would return the opposite of what it should, triggering repair issues for users on HA version >= 2023.9.0b0.
+
+### Config file changes
+
+- Delay value refresh for ZW500D
+- Update several Zooz devices to their 800 series revisions
+- Extend version range for Vesternet VES-ZW-DIM-001
+
+### Detailed changelogs
+
+- [Z-Wave JS 11.14.0](https://github.com/zwave-js/node-zwave-js/releases/tag/v11.14.0)
+
+## 0.1.88
+
+### Features
+
+- Z-Wave JS: Applications can now report on controller status
+- Z-Wave JS Server: Added support for controller identify event
+
+### Bug fixes
+
+- Z-Wave JS: Fixed a regression from v11.10.1 where the controller's firmware version was not fully queried
+- Z-Wave JS: Change order of commands so the startup does not fail when a controller is already set to use 16-bit node IDs and soft-reset is disabled
+- Z-Wave JS: Soft-reset is now always enabled on 700+ series controllers 
+- Z-Wave JS: Queried user codes and their status are now preserved during re-interview when they won't be re-queried automatically
+- Z-Wave JS: Fixed an issue where nodes were being marked as dead because the controller couldn't transmit.
+- Z-Wave JS: Fixed an issue where 700 series controllers were not soft-reset after NVM backup when soft-reset was disabled via config
+- Z-Wave JS: Discard Meter CC and Multilevel Sensor CC reports when the node they supposedly come from does not support them
+- Z-Wave JS: Abort inclusion when a node with the same ID is already part of the network
+- Z-Wave JS: Fixed a startup crash that happens when the controller returns an empty list of nodes
+- Z-Wave JS: Fixed an issue where API calls would be rejected early or incorrectly resolved while the driver was still retrying a command to an unresponsive node
+- Z-Wave JS: Fixed an issue where the controller would be considered jammed if it responds with a Fail status, even after transmitting
+
+### Config file changes
+
+- Disable Supervision for Kwikset HC620 to work around a device bug causing it to flood the network
+- Add fingerprint for Ring Outdoor Contact Sensor
+- Remove unnecessary endpoint functionality for CT100
+- Correct reporting frequency parameter values for Sensative AB Strips Comfort / Drips Multisensor
+
+### Detailed changelogs
+- [Bump Z-Wave JS Server to 1.31.0](https://github.com/zwave-js/zwave-js-server/releases/tag/1.31.0)
+- [Bump Z-Wave JS to 11.11.0](https://github.com/zwave-js/node-zwave-js/releases/tag/v11.11.0)
+- [Bump Z-Wave JS to 11.12.0](https://github.com/zwave-js/node-zwave-js/releases/tag/v11.12.0)
+- [Bump Z-Wave JS to 11.13.0](https://github.com/zwave-js/node-zwave-js/releases/tag/v11.13.0)
+- [Bump Z-Wave JS to 11.13.1](https://github.com/zwave-js/node-zwave-js/releases/tag/v11.13.1)
+
 ## 0.1.87
 
 ### Bug fixes
