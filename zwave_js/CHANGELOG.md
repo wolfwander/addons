@@ -1,5 +1,207 @@
 # Changelog
 
+## 0.4.4
+
+### Bug fixes
+
+- Reduce idle CPU load
+
+### Config file changes
+
+- Add 2nd product ID for Ring Panic Button Gen2
+- Disable Supervision for Alfred DB1 Digital Deadbolt Lock to work around battery drain issue
+- Extend version range for Vesternet VES-ZW-DIM-001
+
+### Detailed changelogs
+
+- [Z-Wave JS 12.4.3](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.4.3)
+- [Z-Wave JS 12.4.2](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.4.2)
+
+## 0.4.3
+
+### Features
+
+- Z-Wave JS Server: Enable server to listen on IPv6 interfaces
+
+### Bug fixes
+
+- Handle more cases of unexpected Serial API restarts
+
+### Config file changes
+
+- Add wakeup instructions for Nexia ZSENS930
+- Correct parameter 5 size for Zooz ZEN34
+
+### Detailed changelogs
+
+- [Z-Wave JS 12.4.1](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.4.1)
+- [Z-Wave JS Server 1.34.0](https://github.com/zwave-js/zwave-js-server/releases/tag/1.34.0)
+
+## 0.4.2
+
+### Features
+
+- Expose rebuild routes progress as a controller property
+
+### Bug fixes
+
+- On devices that should/must not support `Basic CC`, but use it for reporting, only the `currentValue` is now exposed. This allows applications to consider it a sensor, not an actor
+
+### Config file changes
+
+- Correct firmware version condition for Zooz ZSE40 v3.0
+
+### Detailed changelogs
+
+- [Z-Wave JS 12.4.0](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.4.0)
+- [Z-Wave JS 12.3.2](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.3.2)
+
+## 0.4.1
+
+### Bug fixes
+
+- Fixed an issue where the unresponsive controller recovery could do the wrong thing and block all outgoing communication.
+
+### Config file changes
+
+- Add missing units and firmware condition for Heatit Z-Temp2
+- Correct device label for Airzone Aidoo Control HVAC unit
+
+### Detailed changelogs
+
+- [Z-Wave JS 12.3.1](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.3.1)
+
+## 0.4.0
+
+### Features
+
+- Add-On: Provide access to Z-Wave JS cache files for debugging in `/addon_configs/core_zwave_js/cache`
+- Add-On: Add configuration option to log to file. When enabled, logs will be written to `/addon_configs/core_zwave_js` with the `.log` file extension
+
+## 0.3.0
+
+### Features
+
+- Add-On: Add `disable_controller_recovery` configuration option. When enabled, the driver will not attempt to automatically recover from an unresponsive controller and will instead either let the controller recover on its own or wait for the user to restart the add-on to attempt recovery. This is an advanced configuration option that should not be adjusted in most cases and is therefore hidden from the default view.
+
+### Bug fixes
+
+- Z-Wave JS: Ensure the default Basic CC values are only exposed if they should be
+- Z-Wave JS: Auto-remove failed SmartStart nodes when bootstrapping times out
+- Z-Wave JS: Improve how unresponsive controllers are handled
+
+### Config file changes
+
+- Tweak Heatit Z-TRM6 options
+- Add Ring Alarm Panic Button Gen2
+- Update fingerprints for Vesternet device
+
+### Detailed changelogs
+
+- [Z-Wave JS 12.3.0](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.3.0)
+
+## 0.2.1
+
+### Config file changes
+
+- Treat Binary Switch Set and Thermostat Mode Set as reports for SRT321 HRT4-ZW
+- Override supported Thermostat modes for Eurotronics Spirit TRV
+- Correct firmware warnings for Zooz controllers
+- Correct overridden thermostatMode metadata for ZME_FT
+- Add MCOHome C521/C621 shutters, fix C321, make shutters consistent
+- Correct product id for Fakro ZWS12
+- add PM-B400ZW-N
+- Ensure kWh is written consistently in parameter units
+
+### Detailed changelogs
+
+- [Z-Wave JS 12.2.3](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.2.3)
+- [Z-Wave JS 12.2.2](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.2.2)
+- [Z-Wave JS 12.2.1](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.2.1)
+- [Z-Wave JS Server 1.33.0](https://github.com/zwave-js/zwave-js-server/releases/tag/1.33.0)
+
+## 0.2.0
+
+### Features
+
+- Add-on: Add `safe_mode` configuration option to put Z-Wave network in safe mode. This can be used help with troubleshooting network issues, such as being unable to start it, but will likely slow down your network and should therefore be used sparingly. This is an advanced configuration option that should not be adjusted in most cases and is therefore hidden from the default view.
+- Add-on: Switch to [semantic versioning](https://semver.org/). With this change, major version changes to the addon will now reflect e.g. a major version release of Z-Wave JS or a significant change to the add-on structure. This should help users better understand the potential impact of an upgrade.
+
+### Bug fixes
+
+- Z-Wave JS: Includes several more fixes and workarounds for the problematic interaction between some controller firmware bugs and the automatic controller recovery introduced in the `v12` release
+
+### Config file changes
+
+- Add NEO Cool Cam Repeater
+- Increase report timeout for Aeotec Multisensor 6 to 2s
+
+### Detailed changelogs
+
+- [Z-Wave JS 12.2.0](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.2.0)
+- [Z-Wave JS Server 1.32.2](https://github.com/zwave-js/zwave-js-server/releases/tag/1.32.2)
+
+## 0.1.98
+
+### Bug fixes
+
+- Z-Wave JS: Fixed an issue with multi-target firmware updates that prevented updates from being applied correctly
+
+### Config file changes
+
+Almost 1000 device configuration files have been reworked to be more consistent, mostly affecting device labels, parameter labels, descriptions and predefined options. After updating, you should expect to see several notifications for changed device configurations, prompting you to re-interview the affected nodes. Unless the device is mentioned below, there's no need to do this immediately.
+
+- Add parameter 26 to Inovelli VZW31-SN
+- Always set time for Namron 16A thermostats as UTC
+- Add Alloy (Zipato) devices
+- Parameter 21 of Inovelli VZW31-SN is readonly
+- Add Shelly Wave Shutter
+- Add Eurotronic Comet Z (700 series)
+- Add params 7, 18, 19 to Zooz ZEN71 FW 10.20
+- Add Qubino Shades Remote Controller
+- Add fingerprint for new MH8-FC version, add new option for param 1
+- Add Hank HKZW-SO08
+- Add link to manual of Honeywell T6 Pro Thermostat
+
+### Detailed changelogs
+
+- [Z-Wave JS 12.1.0](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.1.0)
+- [Z-Wave JS 12.1.1](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.1.1)
+
+## 0.1.97
+
+### Bug fixes
+
+- Z-Wave JS: Fixed a crash that could happen while logging dropped sensor readings.
+- Z-Wave JS: Change the default timeout to handle slow 500 series controllers.
+
+### Config file changes
+
+- Treat Basic Set as events for TKB TZ35S/D and TZ55S/D
+- Add Zooz ZAC38 Range Extender
+- Corrected the label of the notification event `0x0a` to be `Emergency Alarm`
+
+### Detailed changelogs
+
+- [Z-Wave JS 12.0.4](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.0.4)
+
+## 0.1.96
+
+### Bug fixes
+
+- Add-on: Make `soft_reset` configuration option optional since, when required, it breaks add-on installations done through the `zwave_js` integration.
+
+## 0.1.95
+
+### Bug fixes
+
+- Z-Wave JS: Fixes or works around multiple issues with 500 series controllers that could trigger the unresponsive controller detection in Z-Wave JS 12 in situations where it was not necessary, causing restart loops.
+
+
+### Bug fixes
+
+- [Z-Wave JS 12.0.3](https://github.com/zwave-js/node-zwave-js/releases/tag/v12.0.3)
+
 ## 0.1.94
 
 ### Features

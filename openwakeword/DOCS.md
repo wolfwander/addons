@@ -36,6 +36,12 @@ means fewer detections.
 
 Enable debug logging. Useful for seeing satellite connections and each wake word detection in the logs.
 
+## Custom Wake Word Models
+
+The add-on will automatically load custom wake word models from the `/share/openwakeword` directory. [Install the Samba add-on](https://www.home-assistant.io/common-tasks/supervised/#installing-and-using-the-samba-add-on) to copy wake word model files (`*.tflite`) to this directory.
+
+After adding new models to `/share/openwakeword`, make sure to reload any Wyoming integrations for openWakeWord. Once reloaded, the new wake words will be available to select in the Voice Assistants settings page.
+
 ## Support
 
 Got questions?
