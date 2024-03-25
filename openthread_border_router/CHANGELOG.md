@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.5.0
+
+- Bump to OTBR POSIX version 2279c02f3c (2024-02-28 22:36:55 -0800)
+- Bump base image to Debian bookworm
+
+## 2.4.7
+
+- Better fix for container shutdown in case of OTBR agent failures
+
+## 2.4.6
+
+- Bump to OTBR POSIX version 9bdaa91016 (2024-02-15 08:50:34 -0800)
+- Bump universal SiLabs flasher to 0.0.18
+- Fix container shutdown in case OTBR agent fails to startup
+- Shutdown mDNS daemon after OTBR agent (allows the OTBR service to
+  properly sign off on the network)
+
 ## 2.4.5
 
 - Set default transmit power on startup
